@@ -26,7 +26,7 @@ Explore the live version of the project here:
 
 ## 📸 Screenshots
 ### Landing Page  
-![Listings](https://res.cloudinary.com/dkiqoznwu/image/upload/v1735740198/your_image_name.jpg)
+![Listings](https://res.cloudinary.com/dkiqoznwu/image/upload/v1735740198/wanderlust_DEV/lm7lwan80ckqjzj582zu.png)
 ### Room Listing  
 ![Room Listing](https://via.placeholder.com/1000x500?text=Room+Listing)
 
