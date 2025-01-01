@@ -1,7 +1,6 @@
 # EasyStay Room Reservation 🏠
 
 [![Website](https://img.shields.io/website?url=https://room-reservation-f1hy.onrender.com&label=Live%20Demo)](https://room-reservation-f1hy.onrender.com)
-[![GitHub](https://img.shields.io/github/license/surendrastudy/Room-Reservation?color=blue&label=License)](https://github.com/surendrastudy/Room-Reservation/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/surendrastudy/Room-Reservation?style=social)](https://github.com/surendrastudy/Room-Reservation/stargazers)
 
 Welcome to **EasyStay Room Reservation**, a comprehensive platform for room rentals, bookings, and management. Simplify your stay management process with dynamic listings, real-time updates, and a user-friendly interface.
@@ -27,7 +26,7 @@ Explore the live version of the project here:
 
 ## 📸 Screenshots
 ### Landing Page  
-![Landing Page](https://via.placeholder.com/1000x500?text=Landing+Page)
+![Landing Page](https://res-console.cloudinary.com/dkiqoznwu/thumbnails/v1/image/upload/v1735740198/d2FuZGVybHVzdF9ERVYvbG03bHdhbjgwY2txanpqNTgyenU=/drilldown)
 
 ### Room Listing  
 ![Room Listing](https://via.placeholder.com/1000x500?text=Room+Listing)
