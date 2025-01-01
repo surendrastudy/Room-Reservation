@@ -1,0 +1,111 @@
+<% layout("layouts/boilerPlate") %>
+
+<div class="row mt-3 mb-3 booking-user-font">
+    <% 
+    // Calculate the total price and GST based on date selection
+    const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+    let diffDays = 0; 
+    let finalPrice = 0; // Initialize finalPrice
+    if (listings.length > 0 && listings[0].bookings.length > 0) {
+        let booking = listings[0].bookings[0]; // Access the booking details
+        const dateFrom = new Date(booking.dateFrom);
+        const dateTo = new Date(booking.dateTo);
+        diffDays = Math.ceil((dateTo - dateFrom) / oneDay); // Calculate the difference in days
+
+        // Ensure diffDays is at least 1
+        if (diffDays < 1) {
+            diffDays = 1; // Set to 1 day if the difference is less than 1
+        }
+
+        const pricePerDay =  listings[0].price
+        const totalPrice = diffDays * pricePerDay; // Total price calculation
+        const gst = totalPrice * 0.18; // 18% GST
+        finalPrice = totalPrice + gst; // Final amount payable
+    }
+%>
+
+    <div class="row mt-3 mb-3">
+        <div class="col-8 offset-3 mb-3">
+            <h3>User Details</h3>
+        </div> 
+    </div>
+    <div class="card custom-card col-6 offset-3 show-card booking-user-font">
+        <div class="mb-3">
+            <b>UserName :</b>
+            <%= user.username %>
+        </div>
+
+        <div class="mb-3">
+            <b>Email :</b>
+            <%= user.email %>
+        </div>
+
+        <% if (listings.length > 0 && listings[0].bookings.length > 0) { %>
+            <% let booking = listings[0].bookings[0]; %>
+            <div class="mb-3">
+                <b>Date From :</b>
+                <% const formattedDateFrom = new Date(booking.dateFrom).toLocaleString(); %>
+                <%= formattedDateFrom %>
+            </div>
+
+            <div class="mb-3">
+                <b>Date To :</b>
+                <% const formattedDateTo = new Date(booking.dateTo).toLocaleString(); %>
+                <%= formattedDateTo %>
+            </div>
+            <div class="mb-3">
+                <b>Facilities:</b>
+                <%= booking.bookingFacilities %>
+            </div>
+            <div class="mb-3 d-flex"  >
+                <b>Payment: </b> &nbsp;
+                <p id="payment-status"></p>
+
+            </div>
+
+            <div class="row">
+                <% if(currUser &&  listings[0].owner && currUser._id.equals(listings[0].owner._id)){ %>
+
+                <div class="mb-3 col-md-3">
+                    <a href="/booking/billing/<%= listings[0]._id %>/owner?userId=<%= booking.user._id %>" class="btn" style="background-color: #FF9900;">Billing</a>
+                    
+                </div>
+                <div class="mb-3 col-md-8">
+                    <a href="/booking/backpage/<%= listings[0]._id %>" class="btn" style="background-color: #1abc9c;">Back To page</a>
+                </div>
+                <% } else{%>
+                    <div class="mb-3 col-md-3">
+                        <a href="/booking/payment/<%= listings[0]._id %>?currentBookingUserId=<%= booking._id %>&price=<%= finalPrice.toFixed(2) %>" class="btn" style="background-color: #FF9900;">Payment</a>
+
+
+                    </div>
+                    <div class="mb-3 col-md-8">
+
+                        <a href="/booking/backpage/<%= listings[0]._id %>" class="btn" style="background-color: #1abc9c;">Back To page</a>
+                    </div>
+                    <% } %>
+                
+            </div>
+        <% } else { %>
+            <div class="mb-3">
+                No bookings found for this user.
+            </div>
+        <% } %>
+    </div>
+</div>
+<script>
+    // Retrieve the booking ID and listing ID from local storage
+    const localBookingId = localStorage.getItem('bookingId');
+    const localListingId = localStorage.getItem('listingId');
+
+    // Get the booking and listing IDs from the template
+    const bookingId = "<%= listings.length > 0 ? listings[0].bookings[0]._id : '' %>";
+    const listingId = "<%= listings.length > 0 ? listings[0]._id : '' %>";
+
+    // Check if the local IDs match the IDs in the template
+    if (localBookingId === bookingId && localListingId === listingId) {
+        document.getElementById('payment-status').innerText = "Payment Successful!";
+    } else {
+        document.getElementById('payment-status').innerText = "Not Received.";
+    }
+</script>

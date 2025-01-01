@@ -1,0 +1,77 @@
+<% layout("layouts/boilerPlate") %>
+
+
+<div class="row justify-content-center  my-4 login-container ">
+  <div class="col-lg-6 payment-container  left-side">
+    <h2 class="text-center mb-4">Complete Your Payment</h2>
+
+    <div class="payment-logos mb-3">
+      <img src="https://tse1.mm.bing.net/th?id=OIP.x7hVJon8m_LPVB2AyBfYwgHaEK&pid=Api&P=0&h=180" class="card-img card-img-payment" alt="Visa">
+      <img src="https://tse4.mm.bing.net/th?id=OIP.gOMZfTFwiQMFKHrXRlIRSQHaGl&pid=Api&P=0&h=180" class="card-img card-img-payment " alt="Mastercard">
+      <img src="https://tse4.mm.bing.net/th?id=OIP.-sB-nUlBhgsbHg4X1rOoHwAAAA&pid=Api&P=0&h=180" class="card-img  card-img-payment" alt="RuPay">
+    </div>
+
+    <form id="payment-form" method="post" action="/booking/payment/<%= listing._id  %>"  onsubmit="handleBookingSuccess('<%= bookingId._id %>','<%= listing._id %>')">
+      <!-- Name on Card -->
+      <div class="mb-3">
+        <label for="name" class="form-label form-label-payment icon-text">
+          <i class="fas fa-user"></i> Name on Card
+        </label>
+        <input type="text" class="form-control form-control-pament " id="name" placeholder="Enter name on card" required>
+      </div>
+
+      <!-- Card Number -->
+      <div class="mb-3">
+        <label for="card-number" class="form-label icon-text form-label-payment">
+          <i class="fas fa-credit-card"></i> Card Number
+        </label>
+        <input type="text" class="form-control form-control-pament " id="card-number" placeholder="1234 5678 9012 3456" required maxlength="16">
+      </div>
+
+      <!-- Expiry Date and CVV (Side by Side) -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="expiry-date" class="form-label icon-text form-label-payment">
+            <i class="fas fa-calendar-alt"></i> Expiry Date
+          </label>
+          <input type="text" class="form-control form-control-pament " id="expiry-date" placeholder="MM/YY" required maxlength="5">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="cvv" class="form-label icon-text form-label-payment">
+            <i class="fas fa-lock"></i> CVV
+          </label>
+          <input type="password" class="form-control form-control-pament " id="cvv" placeholder="CVV" required maxlength="3">
+        </div>
+      </div>
+
+      <!-- Payment Amount -->
+      <div class="mb-3">
+        <label for="amount" class="form-label icon-text form-label-payment">
+          <i class="fas fa-rupee-sign"></i> Amount (INR)
+        </label>
+        <input type="number" class="form-control form-control-pament " id="amount" placeholder="Enter amount" required value="<%= totalprice  %>">
+      </div>
+
+      <!-- Secure Payment Notice -->
+      <div class="text-center mb-4">
+        <span class="text-muted icon-text">
+          <i class="fas fa-shield-alt"></i> 100% Secure Payment
+        </span>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary btn-block  p-2" style="font-size: 1.2rem;">Pay Now</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-6 right-side" style="background-image: url('https://res.cloudinary.com/dkiqoznwu/image/upload/v1728204998/wanderlust_DEV/li4eobu3tc1cioi3bsah.png'); "></div>
+
+</div>
+
+<script>
+  function handleBookingSuccess(bookingId, listingId) {
+    localStorage.setItem('bookingId', bookingId);
+    localStorage.setItem('listingId', listingId);
+  }
+</script>

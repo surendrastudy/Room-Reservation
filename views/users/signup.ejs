@@ -1,0 +1,41 @@
+<% layout("layouts/boilerPlate") %>
+
+<div class="row login-container  mt-3">
+  <!-- Left side with sign-up form -->
+  <div class="col-lg-6 left-side">
+    <div>
+      <h1 class="text-center mb-4">SignUp</h1>
+      <form action="/signup" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label">UserName</label>
+          <input type="text" name="username" placeholder="Enter your username" class="form-control"  required>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="email" placeholder="Enter your email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-container">
+            <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
+            <span class="input-group-text icon-button" id="togglePassword">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+
+        <button class="btn btnlogin btn-lg col-12"  style="background-color: #F39C12;">SignUp</button>
+
+        <!-- <button class="btn btnlogin col-3 offset-4 mt-3 flash" type="submit"  style="background-color: #F39C12;">SignUp</button> -->
+      </form>
+    </div>
+  </div>
+
+  <!-- Right side with image -->
+  <div class="col-lg-6 right-side" style="background-image: url('https://res.cloudinary.com/dkiqoznwu/image/upload/v1727517257/wanderlust_DEV/swyc5qih3lh8kj9kayuc.svg'); "></div>
+
+</div>
+

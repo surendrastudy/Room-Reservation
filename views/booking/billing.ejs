@@ -1,0 +1,182 @@
+<% layout("layouts/boilerPlate") %>
+<div class="row col-7 offset-2">
+    <div class="bill-header text-center mt-2">
+        <h1>EasyStay Room Reservation</h1>
+        <p class="mt-3"><strong>Bill Receipt</strong></p>
+    </div>
+    <div class="bill-details">
+        <div class="row">
+            <div class="col-md-6 owner-details">
+                <h5>Room Owner Details</h5>
+                <p>Title: <%= listing.title %></p>
+                <p>Owner Name: <%= listing.owner.username %></p>
+                <p>Email: <%= listing.owner.email %></p>
+                <p>Address: <%= listing.country %>, <%= listing.location %></p>
+            </div>
+            <div class="col-md-6 customer-details text-end">
+                <h5>Customer Details</h5>
+                <p>Customer Name: <%= user.username %></p>
+                <p>Email: <%= user.email %></p>
+            </div>
+        </div>
+    </div>
+    <div class="bill-items mt-3">
+        <h5>Booking Details</h5>
+        <table class="table table-bordered" style="background-color: #f0f0f0; border-color: #ccc; color: #000;">
+            <thead>
+                <tr style="background-color: #e0e0e0; border-bottom: 2px solid #ccc;">
+                    <th style="border-right: 1px solid #ccc;">Room Type</th>
+                    <th style="border-right: 1px solid #ccc;">Price Per Night</th>
+                    <th style="border-right: 1px solid #ccc;">From Date</th>
+                    <th style="border-right: 1px solid #ccc;">To Date</th>
+                    <th style="border-right: 1px solid #ccc;">Number of Nights</th>
+                    <th style="border-right: 1px solid #ccc;">Without GST</th>
+                    <th style="border-right: 1px solid #ccc;">GST Amount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% listing.bookings = listing.bookings.filter(booking => booking.user._id.equals(user._id)); %>
+                <% let booking = listing.bookings[0]; %>
+                <% const dateFrom = new Date(booking.dateFrom); %>
+                <% const dateTo = new Date(booking.dateTo); %>
+                <% const numberOfNights = Math.ceil(Math.max((dateTo - dateFrom) / (1000 * 60 * 60 * 24), 1)); %>
+                <% const totalAmountWithoutGST = listing.price * numberOfNights; %>
+                <% const gstAmount = totalAmountWithoutGST * 0.18; %>
+                <% const totalAmountWithGST = totalAmountWithoutGST + gstAmount; %>
+                <tr>
+                    <td style="border-right: 1px solid #ccc;">Room</td>
+                    <td style="border-right: 1px solid #ccc;">₹<%= listing.price %>/ +18%GST</td>
+                    <td style="border-right: 1px solid #ccc;"><%= dateFrom.toLocaleDateString() %></td>
+                    <td style="border-right: 1px solid #ccc;"><%= dateTo.toLocaleDateString() %></td>
+                    <td style="border-right: 1px solid #ccc;">&nbsp;<%= numberOfNights %></td>
+                    <td style="border-right: 1px solid #ccc;">₹<%= totalAmountWithoutGST %></td>
+                    <td style="border-right: 1px solid #ccc;">&nbsp;<%= gstAmount.toFixed(2) %></td>
+                    <td>₹<%= totalAmountWithGST.toFixed(2) %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="bill-footer mt-3 text-center">
+        <h5>Total Amount: ₹<%= totalAmountWithGST.toFixed(2) %></h5>
+        <button class="btn btn-primary Download m-3" onclick="downloadPDF()">Download PDF</button>
+        <a href="/booking/<%= listing._id %>/ownercancel?userId=<%= booking.user._id %>" class="btn m-3 Download" style="background-color: #FF9900;">Completed</a> <br><br>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
+<script>
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const ownerTitle = "<%= listing.title %>";
+        const ownerName = "<%= listing.owner.username %>";
+        const ownerEmail = "<%= listing.owner.email %>";
+        const customerName = "<%= user.username %>";
+        const customerEmail = "<%= user.email %>";
+        const ownerAddress = "<%= listing.country %>, <%= listing.location %>";
+        const roomType = "Room";
+        const pricePerNight = "<%= listing.price %>";
+
+        // Convert the date format to "day/month/year"
+        function formatDate(date) {
+            const d = new Date(date);
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const year = d.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        const dateFrom = formatDate("<%= booking.dateFrom %>");
+        const dateTo = formatDate("<%= booking.dateTo %>");
+        const numberOfNights = Math.ceil(Math.max((new Date("<%= booking.dateTo %>") - new Date("<%= booking.dateFrom %>")) / (1000 * 60 * 60 * 24), 1));
+        const totalAmountWithoutGST = pricePerNight * numberOfNights;
+        const gstAmount = totalAmountWithoutGST * 0.18;
+        const totalAmountWithGST = totalAmountWithoutGST + gstAmount;
+
+        const img = new Image();
+        img.src = "https://res.cloudinary.com/dkiqoznwu/image/upload/v1722006346/wanderlust_DEV/lkawergj8ejmn1ooxcru.png";
+        img.onload = () => {
+            const imgWidth = 30;
+            const imgHeight = 30;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const imgX = (pageWidth - imgWidth) / 2;
+            const textX = pageWidth / 2;
+
+            doc.addImage(img, 'PNG', imgX, 10, imgWidth, imgHeight);
+            doc.setFontSize(16);
+            doc.text('EasyStay Room Reservation', textX, 50, null, null, 'center');
+            doc.text('Bill Receipt', textX, 60, null, null, 'center');
+
+            // Set font to bold for the section titles
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+
+            // Position titles in the same row with top margin
+            const ownerDetailsX = 10;
+            const customerDetailsX = 140; // Adjust this value to position the customer details title
+            const detailsTopMargin = 5;
+
+            doc.text('Room Owner Details', ownerDetailsX, 70 + detailsTopMargin);
+            doc.text('Customer Details', customerDetailsX, 70 + detailsTopMargin);
+
+            // Reset to normal font for details
+            doc.setFont("helvetica", "normal");
+            doc.text(`Room Title: ${ownerTitle}`, ownerDetailsX, 80 + detailsTopMargin);
+            doc.text(`Owner Name: ${ownerName}`, ownerDetailsX, 90 + detailsTopMargin);
+            doc.text(`Email: ${ownerEmail}`, ownerDetailsX, 100 + detailsTopMargin);
+            doc.text(`Address: ${ownerAddress}`, ownerDetailsX, 110 + detailsTopMargin);
+
+            doc.text(`Customer Name: ${customerName}`, customerDetailsX, 80 + detailsTopMargin);
+            doc.text(`Email: ${customerEmail}`, customerDetailsX, 90 + detailsTopMargin);
+
+            // Set font to bold for the booking details title
+            doc.setFont("helvetica", "bold"); 
+            doc.text('Booking Details', 10, 130 + detailsTopMargin); // Decreased space
+            doc.setFont("helvetica", "normal"); // Reset to normal font for table
+
+            // One table with GST and Without GST
+            doc.autoTable({
+                startY: 140 + detailsTopMargin, // Adjust start position for table
+                head: [['Room Type', 'Price Per Night', 'From Date', 'To Date', 'Number of Nights', 'Without GST', 'GST Amount', 'Total']],
+                body: [[
+                    roomType,
+                    `${pricePerNight} Rs / +18% GST`,
+                    dateFrom,
+                    dateTo,
+                    numberOfNights,
+                    `${totalAmountWithoutGST.toFixed(2)} Rs`,
+                    `${gstAmount.toFixed(2)} Rs`,
+                    `${totalAmountWithGST.toFixed(2)} Rs`
+                ]],
+                theme: 'grid',
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 3,
+                    overflow: 'linebreak',
+                    halign: 'center',
+                    fillColor: [240, 240, 240],
+                    textColor: [0, 0, 0],
+                    lineColor: [204, 204, 204]
+                },
+                headStyles: {
+                    fillColor: [224, 224, 224],
+                    textColor: [0, 0, 0],
+                    lineWidth: 1,
+                    lineColor: [204, 204, 204]
+                },
+                tableLineColor: [204, 204, 204],
+                tableLineWidth: 1,
+            });
+
+            doc.setFontSize(14);
+            doc.text(`Total Amount: ${totalAmountWithGST.toFixed(2)} Rs`, 10, doc.lastAutoTable.finalY + 20);
+            const date = new Date(); 
+            const formattedDate = date.toLocaleDateString('en-GB');
+            doc.text(`Date: ${formattedDate}`, 10, doc.lastAutoTable.finalY + 30); // Add formatted date
+            doc.save('bill.pdf');
+
+        };
+    }
+</script>

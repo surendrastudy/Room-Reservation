@@ -1,0 +1,24 @@
+<% layout("layouts/boilerPlate") %>
+<div class="row mt-3">
+    <h2 class="col-6 offset-3">Update password </h2>
+    
+    <div class="col-6 offset-3 mt-2">
+        <form action="/reset-password?_method=PATCH" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label"> UserName</label>
+                <input type="text" name="username" placeholder="" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">New password</label>
+                <div class="input-container">
+                    <input type="password" id="password" name="password" placeholder="" class="form-control" required>
+                    <span class="input-group-text icon-button " id="togglePassword">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+            <button class="btn col-3 offset-4 flash" style="background-color: #F39C12;">Login</button>
+        </form>
+    </div>
+</div>
