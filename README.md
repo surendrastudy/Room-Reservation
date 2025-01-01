@@ -26,8 +26,7 @@ Explore the live version of the project here:
 
 ## 📸 Screenshots
 ### Landing Page  
-![Landing Page](https://res-console.cloudinary.com/dkiqoznwu/thumbnails/v1/image/upload/v1735740198/d2FuZGVybHVzdF9ERVYvbG03bHdhbjgwY2txanpqNTgyenU=/drilldown)
-
+![Listings](https://res.cloudinary.com/dkiqoznwu/image/upload/v1735740198/your_image_name.jpg)
 ### Room Listing  
 ![Room Listing](https://via.placeholder.com/1000x500?text=Room+Listing)
 
