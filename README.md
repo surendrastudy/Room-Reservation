@@ -59,18 +59,20 @@ Follow these steps to run the project locally:
 4. ```bash
    node app.js
 
-💬 Contact
+##💬 Contact
+
 For any queries or suggestions:
 📧 Email: surendrastudy@example.com
 🌐 GitHub: surendrastudy
 
-🙌 Acknowledgments
+##🙌 Acknowledgments
+
 MapTiler for the API integration.
 JSPDF for seamless PDF generation.
 Special thanks to everyone who inspired this project!
 
 
-⭐ Don't forget to star the repo if you find it useful!
+##⭐ Don't forget to star the repo if you find it useful!
 
 ### Key Highlights:
 1. **Badges**: Makes the README visually appealing and professional.
