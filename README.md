@@ -64,7 +64,7 @@ Follow these steps to run the project locally:
 ## 💬 Contact
 
 For any queries or suggestions:
-📧 Email: surendrastudy@example.com
+📧 Email: yraj35093@gmail.com
 🌐 GitHub: surendrastudy
 
 ---
