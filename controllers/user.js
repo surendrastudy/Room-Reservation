@@ -121,7 +121,7 @@ module.exports.verifyOtp=(req, res) => {
         delete otps[email]; // OTP validated, remove it from storage
         req.flash('success', 'OTP verified. You can now change your password.');
         res.locals.success = req.flash('success');
-        res.render('users/forgetpass.ejs');
+        res.render('users/forgetPass.ejs');
     } else {
         req.flash('error', 'Invalid or expired OTP.');
         res.locals.error = req.flash('error');
