@@ -52,6 +52,6 @@ Follow these steps to run the project locally:
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/surendrastudy/Room-Reservation.git
-2. cd EasyStay
-3. npm install
-4. node app.js
+2. ```cd EasyStay
+3. ```npm install
+4. ```node app.js
